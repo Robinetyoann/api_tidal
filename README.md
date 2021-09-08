@@ -1,6 +1,6 @@
 # api_tidal
 
-# Members : 
+## Members : 
 - Clément Bourdier
 - Yoann Robinet
 - Alexis Migewant
