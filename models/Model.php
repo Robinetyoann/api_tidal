@@ -7,7 +7,7 @@ abstract class Model {
         $host = 'localhost';
         $dbname = 'tidal';
         $user = 'root';
-        $pass = '';
+        $pass = 'root';
         self::$_bdd = new PDO('mysql:host='.$host.';dbname='.$dbname.';charset=utf8', $user, $pass);
         self::$_bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
     }
@@ -20,12 +20,13 @@ abstract class Model {
     }
 
     protected function getAll($table, $obj) {
+        require_once('./entity/'.$obj.'.php');
         $var = [];
         $req = $this->getBdd()->prepare('SELECT * FROM '.$table.' ORDER BY idS asc');
         $req->execute();
+
         while($data = $req->fetch(PDO::FETCH_ASSOC)) {
-           $var = new $obj($data);
-           //print_r($data) ;
+            array_push($var, new $obj($data));
         }
         return $var;
         $req->closeCursor();
