@@ -13,7 +13,7 @@ class Router {
             $url = '';
 
            if(isset($_GET['url'])) {
-                $url = explode('/', filter_var($_GET['url'], FILTER_SANITIZE));
+           $url = explode('/', filter_var($_GET['url'], /*FILTER_SANITIZE*/));
 
                 $controller = ucfirst(strtolower($url[0]));
                 $controllerClass = 'Controller'.$controller;

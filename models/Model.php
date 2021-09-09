@@ -28,7 +28,7 @@
         $req->execute();
         while($data = $req->fetch(PDO::FETCH_ASSOC)) {
            // $var = new $obj($data);
-           print_r($data) ;
+         //  print_r($data) ;
         }
         //return $var;
         $req->closeCursor();
