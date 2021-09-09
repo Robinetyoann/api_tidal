@@ -1,36 +1,33 @@
 <?php
 
- class Model {
+abstract class Model {
     private static $_bdd;
 
     private static function setBdd() {
         $host = 'localhost';
         $dbname = 'tidal';
         $user = 'root';
-        $pass = '';
+        $pass = 'root';
         self::$_bdd = new PDO('mysql:host='.$host.';dbname='.$dbname.';charset=utf8', $user, $pass);
         self::$_bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
-
-       
     }
 
-    public function getBdd() {
-       
+    protected function getBdd() {
         if(self::$_bdd == null)
             self::setBdd();
 
         return self::$_bdd;
     }
 
-    public function getAll($table, $obj) {
+    protected function getAll($table) {
         $var = [];
-        $req = $this->getBdd()->prepare('SELECT * FROM '.$table.' ORDER BY idS asc');
+        $req = $this->getBdd()->prepare('SELECT * FROM '.$table);
         $req->execute();
+
         while($data = $req->fetch(PDO::FETCH_ASSOC)) {
-           // $var = new $obj($data);
-         //  print_r($data) ;
+            array_push($var, $data);
         }
-        //return $var;
+        return $var;
         $req->closeCursor();
     }
 }
