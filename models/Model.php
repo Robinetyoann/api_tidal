@@ -19,14 +19,13 @@ abstract class Model {
         return self::$_bdd;
     }
 
-    protected function getAll($table, $obj) {
-        require_once('./entity/'.$obj.'.php');
+    protected function getAll($table) {
         $var = [];
-        $req = $this->getBdd()->prepare('SELECT * FROM '.$table.' ORDER BY idS asc');
+        $req = $this->getBdd()->prepare('SELECT * FROM '.$table);
         $req->execute();
 
         while($data = $req->fetch(PDO::FETCH_ASSOC)) {
-            array_push($var, new $obj($data));
+            array_push($var, $data);
         }
         return $var;
         $req->closeCursor();
