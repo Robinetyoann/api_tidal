@@ -1,7 +1,7 @@
 <?php
 
 const CRYPTED_PWD = '$2y$10$n1hpKeYzE5U5SNjext7rO.BsYkkEajGNZCE53G23uh1thZ4mAMG4S';
-class User{
+class User extends Model{
     public $_email;
     public $_password;
     
@@ -13,7 +13,7 @@ class User{
 
     public function register(){
         $this->_password = password_hash( $this->_password, PASSWORD_BCRYPT);
-        echo "REGISTER  ". $this->_email.  '  '.$this->_password;
+        return  true;
         
     }
     public function login(){

@@ -13,6 +13,8 @@ class Router {
             $url = '';
 
             if(isset($_GET['url'])) {
+               
+              
                 $url = explode('/', filter_var($_GET['url']), FILTER_SANITIZE_URL);
 
                 $controller = ucfirst(strtolower($url[0]));
