@@ -1,6 +1,7 @@
 <?php
 class JWT
 {
+    
     /**
      * Génération JWT
      * @param array $header Header du token
@@ -9,7 +10,7 @@ class JWT
      * @param int $validity Durée de validité (en secondes)
      * @return string Token
      */
-    public function generate(array $header, array $payload, string $secret, int $validity = 86400): string
+    public function generate( array $payload, string $secret, int $validity = 86400): string
     {
         if($validity > 0){
             $now = new DateTime();

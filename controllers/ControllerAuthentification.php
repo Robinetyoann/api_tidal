@@ -1,5 +1,6 @@
 <?php
 require_once('./models/User.php');
+require_once('./lib/response_json.php');
 
 class ControllerAuthentification
 {
@@ -19,72 +20,61 @@ class ControllerAuthentification
             //print_r($url);
             switch ($_SERVER["REQUEST_METHOD"]) {
                 case 'GET':
+                    var_dump($_GET);
+                    var_dump($url);
                     echo 'get';
                     break;
-
                 case 'POST':
+                  
                     $page =  (isset($url[1])) ? $url[1] : NULL;
                     switch ($page) {
                         case NULL:
-                            echo 'login';
-                            $email = (isset($_POST['email'])) ? $_POST['email'] : NULL;
-                            $pwd = (isset($_POST['password'])) ? $_POST['password'] : NULL;
-
-                            if ($email != NULL && $pwd != NULL) {
-                                $user = new User($email, $pwd);
-                                if ($user->login()) {
-                                    echo json_encode([
-                                        'success' => true,
-                                        'message' => "Authentification réussite"
-                                    ]);
-                                } else {
-                                    echo json_encode([
-                                        'success' => false,
-                                        'message' => "Echec de l'authentification !"
-                                    ]);
-                                }
-                            } else {
-                                echo json_encode([
-                                    'success' => false,
-                                    'message' => "email et mot de passe requis !"
-                                ]);
-                            }
+                            $this->login();
                             break;
 
                         case 'register':
-                            echo 'register';
-                            $email = (isset($_POST['email'])) ? $_POST['email'] : NULL;
-                            $pwd = (isset($_POST['password'])) ? $_POST['password'] : NULL;
-                            if ($email != NULL && $pwd != NULL) {
-                                $new_user = new User($email, $pwd);
-                                if ($new_user) {
-                                    echo json_encode([
-                                        'success' => true,
-                                        'message' => "Utilisateur ajouté"
-                                    ]);
-                                } else {
-                                    echo json_encode([
-                                        'success' => false,
-                                        'message' => "Erreur d'ajout de l'utilisateur"
-                                    ]);
-                                }
-                            } else {
-                                echo json_encode([
-                                    'success' => false,
-                                    'message' => 'email et mot de passe requis ! '
-                                ]);
-                            }
+                            $this->register();
                             break;
-
-
-                        
                     }
-    
                 default:
                     // Requête invalide
-                    header("HTTP/1.0 405 Method Not Allowed");
-                    break;
+                echo $_SERVER["REQUEST_METHOD"];
+                    json(405, "Method Not Allowed");
+                   
             }
+        }
+    }
+
+    private function login()
+    {
+        $email = (isset($_POST['email'])) ? $_POST['email'] : NULL;
+        $pwd = (isset($_POST['password'])) ? $_POST['password'] : NULL;
+
+        if ($email != NULL && $pwd != NULL) {
+            $user = new User($email, $pwd);
+            if ($user->login()) {
+                json(200, "Authentification réussite");
+            } else {
+                json(400, "Email ou mot de passe incorrect !");
+            }
+        } else {
+            json(400,  "Email et mot de passe requis !");
+        }
+    }
+
+    private function register()
+    {
+        $email = (isset($_POST['email'])) ? $_POST['email'] : NULL;
+        $pwd = (isset($_POST['password'])) ? $_POST['password'] : NULL;
+        if ($email != NULL && $pwd != NULL) {
+            $new_user = new User($email, $pwd);
+            if ($new_user->register()) {
+                json(200, "Utilisateur ajouté");
+            } else {
+                json(400,  "Erreur d'ajout de l'utilisateur");
+            }
+        } else {
+            json(400, "Email et mot de passe requis !");
         }
     }
 }
