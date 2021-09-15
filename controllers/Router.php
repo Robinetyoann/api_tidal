@@ -27,7 +27,7 @@ class Router {
 
                 if(file_exists($controllerFile)) {
                     require_once($controllerFile);
-                    if(isset($url) && count($url) > 1) {
+                    if(!isset($url)) {
                         $array = [
                             'success' => false,
                             'message' => 400,
