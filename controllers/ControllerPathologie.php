@@ -16,7 +16,6 @@ class ControllerPathologie {
         } else {
             $this->pathologie();
         }
-            
     }
 
     private function pathologie() {
