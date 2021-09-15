@@ -2,13 +2,11 @@
 require_once('./models/User.php');
 require_once('./lib/response_json.php');
 
-class ControllerAuthentification
-{
+class ControllerAuthentification {
     private $_userModel;
     private $_users;
 
-    public function __construct($url)
-    {
+    public function __construct($url) {
         if (!isset($url)) {
             $array = [
                 'success' => false,
@@ -16,8 +14,6 @@ class ControllerAuthentification
             ];
             $this->_users['message'] = $array;
         } else {
-
-            //print_r($url);
             switch ($_SERVER["REQUEST_METHOD"]) {
                 case 'GET':
                     var_dump($_GET);
@@ -25,7 +21,6 @@ class ControllerAuthentification
                     echo 'get';
                     break;
                 case 'POST':
-                  
                     $page =  (isset($url[1])) ? $url[1] : NULL;
                     switch ($page) {
                         case NULL:
@@ -45,8 +40,7 @@ class ControllerAuthentification
         }
     }
 
-    private function login()
-    {
+    private function login() {
         $email = (isset($_POST['email'])) ? $_POST['email'] : NULL;
         $pwd = (isset($_POST['password'])) ? $_POST['password'] : NULL;
 
@@ -62,8 +56,7 @@ class ControllerAuthentification
         }
     }
 
-    private function register()
-    {
+    private function register() {
         $email = (isset($_POST['email'])) ? $_POST['email'] : NULL;
         $pwd = (isset($_POST['password'])) ? $_POST['password'] : NULL;
         if ($email != NULL && $pwd != NULL) {
