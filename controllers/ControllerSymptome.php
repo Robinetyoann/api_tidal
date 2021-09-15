@@ -7,15 +7,7 @@ class ControllerSymptome {
     private $_symptomes;
 
     public function __construct($url) {
-        if(isset($url) && count($url) > 1) {
-            $array = [
-                'success' => false,
-                'message' => 400
-            ];
-            $this->_symptomes['message'] = $array;
-        } else {
-            $this->symptomes();
-        }  
+        $this->symptomes();
     }
 
     private function symptomes() {
