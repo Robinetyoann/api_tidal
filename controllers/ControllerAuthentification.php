@@ -7,31 +7,23 @@ class ControllerAuthentification {
     private $_users;
 
     public function __construct($url) {
-        if (!isset($url)) {
-            $array = [
-                'success' => false,
-                'message' => 400
-            ];
-            $this->_users['message'] = $array;
-        } else {
-            switch ($_SERVER["REQUEST_METHOD"]) {
-                case 'GET':
-                    var_dump($_GET);
-                    var_dump($url);
-                    echo 'get';
-                    break;
-                case 'POST':
-                    $page =  (isset($url[1])) ? $url[1] : NULL;
-                    switch ($page) {
-                        case NULL:
-                            $this->login();
-                            break;
+        switch ($_SERVER["REQUEST_METHOD"]) {
+            case 'GET':
+                var_dump($_GET);
+                var_dump($url);
+                echo 'get';
+                break;
+            case 'POST':
+                $page =  (isset($url[1])) ? $url[1] : NULL;
+                switch ($page) {
+                    case NULL:
+                        $this->login();
+                        break;
 
-                        case 'register':
-                            $this->register();
-                            break;
-                    }
-            }
+                    case 'register':
+                        $this->register();
+                        break;
+                }
         }
     }
 
