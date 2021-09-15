@@ -7,16 +7,7 @@ class ControllerPathologie {
     private $_pathologies;
 
     public function __construct($url) {
-        if(isset($url) && count($url) > 1) {
-            $array = [
-                'success' => false,
-                'message' => 400
-            ];
-            $this->_pathologies['message'] = $array;
-        } else {
-            $this->pathologie();
-        }
-            
+        $this->pathologie();
     }
 
     private function pathologie() {
