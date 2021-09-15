@@ -27,22 +27,38 @@ class Router {
 
                 if(file_exists($controllerFile)) {
                     require_once($controllerFile);
-                    $this->_ctrl = new $controllerClass($url);
+                    if(isset($url) && count($url) > 1) {
+                        $array = [
+                            'success' => false,
+                            'message' => 400,
+                            'errors' => 'Url non valide'
+                        ];
+                    } else {
+                        $this->_ctrl = new $controllerClass($url);
+                    }
                 } else {
-                    throw new Exception('Page introuvable');
+                    $array = [
+                        'success' => false,
+                        'message' => 400,
+                        'errors' => 'Page introuvable'
+                    ];
                 }
             } else {
                 $array = [
                     'success' => false,
                     'message' => 404,
+                    'errors' => 'Indiquer un url'
                 ];
+            }
+
+            if(!empty($array)) {
                 echo json_encode($array);
             }
         } catch(Exception $e) {
             $array = [
                 'success' => false,
                 'message' => 400,
-                'data' => $e
+                'errors' => $e
             ];
             echo json_encode($array);
         }
