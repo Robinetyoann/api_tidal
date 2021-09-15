@@ -1,6 +1,7 @@
 <?php
 
 require_once('./models/MeridienManager.php');
+require_once('./lib/response_json.php');
 
 class ControllerMeridiens {
     private $_meridienManager;
@@ -12,11 +13,11 @@ class ControllerMeridiens {
 
     private function meridien() {
         $this->_meridienManager = new MeridienManager;
-        $array = [
-            'success' => true,
-            'message' => 200,
-            'data' => $this->_meridienManager->getMeridiens()
-        ];
-        echo json_encode($array);
+        try {
+            $data = $this->_meridienManager->getMeridiens();
+            json(200, $data);
+        } catch (Exception $e) {
+            json(500, 'No data');
+        }
     }
 }
