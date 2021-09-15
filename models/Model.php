@@ -30,4 +30,10 @@ abstract class Model {
         return $var;
         $req->closeCursor();
     }
+
+    protected function populate($array) {
+        foreach($array as $value) {
+            echo $value;
+        }
+    }
 }
