@@ -8,11 +8,11 @@ class ControllerMeridiens {
     private $_meridiens;
 
     public function __construct($url) {
+        $this->_meridienManager = new MeridienManager;
         $this->meridien();
     }
 
     private function meridien() {
-        $this->_meridienManager = new MeridienManager;
         try {
             $data = $this->_meridienManager->getMeridiens();
             json(200, $data);
