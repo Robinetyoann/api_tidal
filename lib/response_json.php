@@ -1,17 +1,15 @@
 <?php 
-function json($code, $data)
-{
-    if($code <400)
-    {
+function json($code, $data) {
+    if($code < 400) {
         echo json_encode([
             'success' => true,
-            'code'=>$code,
+            'code' => $code,
             'data' => $data
         ]);
-    }else{
+    } else {
         echo json_encode([
             'success' => false,
-            'code'=>$code,
+            'code' => $code,
             'error' => $data
         ]);
     }
