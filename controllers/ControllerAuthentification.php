@@ -31,11 +31,6 @@ class ControllerAuthentification {
                             $this->register();
                             break;
                     }
-                default:
-                    // Requête invalide
-                echo $_SERVER["REQUEST_METHOD"];
-                    json(405, "Method Not Allowed");
-                   
             }
         }
     }
