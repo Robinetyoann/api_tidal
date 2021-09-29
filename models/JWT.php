@@ -1,6 +1,5 @@
 <?php
-class JWT
-{
+class JWT {
     
     /**
      * Génération JWT
@@ -10,8 +9,7 @@ class JWT
      * @param int $validity Durée de validité (en secondes)
      * @return string Token
      */
-    public function generate( array $payload, string $secret, int $validity = 86400): string
-    {
+    public function generate( array $payload, string $secret, int $validity = 86400): string {
         if($validity > 0){
             $now = new DateTime();
             $expiration = $now->getTimestamp() + $validity;
@@ -49,8 +47,7 @@ class JWT
      * @param string $secret Clé secrète
      * @return bool Vérifié ou non
      */
-    public function check(string $token, string $secret): bool
-    {
+    public function check(string $token, string $secret): bool {
         // On récupère le header et le payload
         $header = $this->getHeader($token);
         $payload = $this->getPayload($token);
@@ -66,8 +63,7 @@ class JWT
      * @param string $token Token
      * @return array Header
      */
-    public function getHeader(string $token)
-    {
+    public function getHeader(string $token) {
         // Démontage token
         $array = explode('.', $token);
 
@@ -82,8 +78,7 @@ class JWT
      * @param string $token Token
      * @return array Payload
      */
-    public function getPayload(string $token)
-    {
+    public function getPayload(string $token) {
         // Démontage token
         $array = explode('.', $token);
 
@@ -98,8 +93,7 @@ class JWT
      * @param string $token Token à vérifier
      * @return bool Vérifié ou non
      */
-    public function isExpired(string $token): bool
-    {
+    public function isExpired(string $token): bool {
         $payload = $this->getPayload($token);
 
         $now = new DateTime();
@@ -112,8 +106,7 @@ class JWT
      * @param string $token Token à vérifier
      * @return bool Vérifié ou non
      */
-    public function isValid(string $token): bool
-    {
+    public function isValid(string $token): bool {
         return preg_match(
             '/^[a-zA-Z0-9\-\_\=]+\.[a-zA-Z0-9\-\_\=]+\.[a-zA-Z0-9\-\_\=]+$/',
             $token
