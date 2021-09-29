@@ -1,6 +1,5 @@
 <?php
 
-const CRYPTED_PWD = '$2y$10$n1hpKeYzE5U5SNjext7rO.BsYkkEajGNZCE53G23uh1thZ4mAMG4S';
 class User extends Model
 {
     public $_email;
@@ -36,7 +35,8 @@ class User extends Model
 
 
             if (password_verify($this->_password, $user->password)) {
-                return true;
+        
+                return $user;
             } else {
                 return false;
             }

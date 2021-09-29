@@ -1,5 +1,5 @@
 <?php
-
+require_once('./lib/get_token.php');
 class Router {
     private $_ctrl;
     private $_view;
@@ -20,6 +20,7 @@ class Router {
                 $controller = ucfirst(strtolower($url[0]));
                 $controllerClass = 'Controller'.$controller;
                 $controllerFile = './controllers/'.$controllerClass.'.php';
+                
               
                 if(file_exists($controllerFile)) {
                     require_once($controllerFile);

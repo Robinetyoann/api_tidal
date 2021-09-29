@@ -1,6 +1,11 @@
 <?php
+//MODELS
 require_once('./models/User.php');
+require_once('./models/JWT.php');
+
+//LIB
 require_once('./lib/response_json.php');
+require_once('./lib/body_request.php');
 
 class ControllerAuthentification
 {
@@ -17,15 +22,15 @@ class ControllerAuthentification
             $this->_users['message'] = $array;
         } else {
 
-            //print_r($url);
+
             switch ($_SERVER["REQUEST_METHOD"]) {
                 case 'GET':
-                    var_dump($_GET);
-                    var_dump($url);
-                    echo 'get';
+                   
+                    json(200, body_request());
                     break;
                 case 'POST':
                   
+                   
                     $page =  (isset($url[1])) ? $url[1] : NULL;
                     switch ($page) {
                         case NULL:
@@ -35,12 +40,9 @@ class ControllerAuthentification
                         case 'register':
                             $this->register();
                             break;
+                        case 'check':
+                            $this->check_token();
                     }
-                default:
-                    // Requête invalide
-                echo $_SERVER["REQUEST_METHOD"];
-                    json(405, "Method Not Allowed");
-                   
             }
         }
     }
@@ -52,10 +54,22 @@ class ControllerAuthentification
 
         if ($email != NULL && $pwd != NULL) {
             $user = new User($email, $pwd);
-            if ($user->login()) {
-                json(200, "Authentification réussite");
-            } else {
+            $user=$user->login();
+            if (!$user) {
                 json(400, "Email ou mot de passe incorrect !");
+            } else {
+
+                $header = [
+                    'typ' => 'JWT',
+                    'alg' => 'HS256'
+                ];
+                $payload = [
+                    'id' => $user->id,
+                    'email' => $user->email
+                ];
+                //json(200, "Authentification réussite");
+                $token = new JWT();
+                json(200, [['token' => $token->generate($header, $payload)], ['message' => "Authentification réussite"]]);
             }
         } else {
             json(400,  "Email et mot de passe requis !");
@@ -76,5 +90,12 @@ class ControllerAuthentification
         } else {
             json(400, "Email et mot de passe requis !");
         }
+    }
+
+    private function check_token()
+    {
+        $token_decoded=  JWT::token_validation();   
+        json($token_decoded['code'], $token_decoded['data']);
+
     }
 }
