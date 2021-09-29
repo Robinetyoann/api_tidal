@@ -7,4 +7,4 @@ RewriteCond %{REQUEST_URI} !index.php
 RewriteRule ^([A-Za-z]+)/([0-9]+)$ index.php?url=$1&id=$2
 
 # http://localhost:8888/api_tidal/symptomes
-RewriteRule ^([A-Za-z]+)$ index.php?url=symptomes
+RewriteRule ^([A-Za-z]+)$ index.php?url=$1
