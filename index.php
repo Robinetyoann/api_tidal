@@ -5,10 +5,3 @@ require_once('models/Model.php');
 
 $router = new Router();
 $router->routeReq();
-
-//CONTROLEUR AUTHENTIFICATION
-
-
-
-
-
