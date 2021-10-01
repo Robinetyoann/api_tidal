@@ -9,7 +9,7 @@ class ControllerSymptomes {
 
     public function __construct($url) {
         $this->_symptomeManager = new SymptomeManager;
-        if(count($url) === 1 && gettype($url[0]) === 'string' && empty($_GET['includes'])) {
+        if (count($url) === 1 && gettype($url[0]) === 'string' && empty($_GET['includes'])) {
             $this->symptomes();
         } elseif (count($url) === 1 && gettype($url[0]) === 'string' && empty(!$_GET)) {
             $this->populateSymptomes();

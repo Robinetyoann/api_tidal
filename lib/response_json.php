@@ -1,9 +1,7 @@
 <?php 
-function json($code, $data)
-{
+function json($code, $data) {
     http_response_code($code);
-    if($code <400)
-    {
+    if ($code < 400) {
         echo json_encode([
             'success' => true,
             'code' => $code,

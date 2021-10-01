@@ -1,7 +1,6 @@
 <?php
 
-class User extends Model
-{
+class User extends Model {
     public $_email;
     public $_password;
 
@@ -18,7 +17,6 @@ class User extends Model
         } catch (Exception $e) {
             return false;
         }
-
         return true;
     }
 
@@ -31,7 +29,6 @@ class User extends Model
             return (password_verify($this->_password, $user->password) ? true : false); 
 
             if (password_verify($this->_password, $user->password)) {
-        
                 return $user;
             } else {
                 return false;
