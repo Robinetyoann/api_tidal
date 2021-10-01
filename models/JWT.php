@@ -1,6 +1,8 @@
 <?php
-class JWT {
-    
+require_once('./lib/get_token.php');
+const SECRET = 'EZAFAZFEN5A40AaefOIH4Hhoef';
+class JWT
+{
     /**
      * Génération JWT
      * @param array $header Header du token
@@ -9,8 +11,11 @@ class JWT {
      * @param int $validity Durée de validité (en secondes)
      * @return string Token
      */
-    public function generate( array $payload, string $secret, int $validity = 86400): string {
-        if($validity > 0){
+    public function generate(array $header, array $payload, int $validity = 86400): string
+    {
+
+
+        if ($validity > 0) {
             $now = new DateTime();
             $expiration = $now->getTimestamp() + $validity;
             $payload['iat'] = $now->getTimestamp();
@@ -47,14 +52,20 @@ class JWT {
      * @param string $secret Clé secrète
      * @return bool Vérifié ou non
      */
-    public function check(string $token, string $secret): bool {
+    public function check(string $token): bool
+    {
         // On récupère le header et le payload
         $header = $this->getHeader($token);
         $payload = $this->getPayload($token);
-
+     
         // On génère un token de vérification
-        $verifToken = $this->generate($header, $payload, $secret, 0);
-
+        if($header != NULL && $payload != NULL)
+        {
+            $verifToken = $this->generate($header, $payload, 0);
+            
+        }else{
+            $verifToken = false;
+        }
         return $token === $verifToken;
     }
 
@@ -110,6 +121,33 @@ class JWT {
         return preg_match(
             '/^[a-zA-Z0-9\-\_\=]+\.[a-zA-Z0-9\-\_\=]+\.[a-zA-Z0-9\-\_\=]+$/',
             $token
-        ) === 1;
+        ) == 1;
+    }
+    
+    public static function token_validation(string $token = null)
+    {
+        
+       if($token == null)
+       {
+           $token = get_token();
+       }
+        $jwt = new JWT();
+
+        // On vérifie la validité
+        if (!$jwt->isValid($token)) {
+            return ['code'=>400, 'data'=>  'Format Token invalide'];
+           // json(400, 'Format Token invalide');   
+        }
+
+        // On vérifie la signature
+        else if (!$jwt->check($token)) {
+            return ['code'=>403, 'data'=>   'Le token est invalide'];
+        }
+        // On vérifie l'expiration
+        else if ($jwt->isExpired($token)) {
+            return ['code'=>403, 'data'=>   'Le token est expiré'];
+        } else {
+            return ['code'=>200, 'data'=> $jwt->getPayload($token)];
+        }
     }
 }
