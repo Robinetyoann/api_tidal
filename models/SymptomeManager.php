@@ -8,7 +8,7 @@ class SymptomeManager extends Model  {
         return $this->getAll('symptome');
     }
 
-    public function populateSymptomes() {
-        return $this->populate(['test', 'test']);
+    public function populateSymptomes($array) {
+        return $this->populate($array);
     }
 }
