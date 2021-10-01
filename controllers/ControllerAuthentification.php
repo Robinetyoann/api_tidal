@@ -11,8 +11,7 @@ class ControllerAuthentification {
     private $_userModel;
     private $_users;
 
-    public function __construct($url)
-    {
+    public function __construct($url) {
         if (!isset($url)) {
             $array = [
                 'success' => false,
@@ -20,22 +19,16 @@ class ControllerAuthentification {
             ];
             $this->_users['message'] = $array;
         } else {
-
-
             switch ($_SERVER["REQUEST_METHOD"]) {
                 case 'GET':
-                   
                     json(200, body_request());
                     break;
                 case 'POST':
-                  
-                   
                     $page =  (isset($url[1])) ? $url[1] : NULL;
                     switch ($page) {
                         case NULL:
                             $this->login();
                             break;
-
                         case 'register':
                             $this->register();
                             break;
@@ -56,7 +49,6 @@ class ControllerAuthentification {
             if (!$user) {
                 json(400, "Email ou mot de passe incorrect !");
             } else {
-
                 $header = [
                     'typ' => 'JWT',
                     'alg' => 'HS256'
@@ -65,12 +57,11 @@ class ControllerAuthentification {
                     'id' => $user->id,
                     'email' => $user->email
                 ];
-                //json(200, "Authentification réussite");
                 $token = new JWT();
                 json(200, [['token' => $token->generate($header, $payload)], ['message' => "Authentification réussite"]]);
             }
         } else {
-            json(400,  "Email et mot de passe requis !");
+            json(400, "Email et mot de passe requis !");
         }
     }
 
@@ -89,10 +80,8 @@ class ControllerAuthentification {
         }
     }
 
-    private function check_token()
-    {
+    private function check_token() {
         $token_decoded=  JWT::token_validation();   
         json($token_decoded['code'], $token_decoded['data']);
-
     }
 }
