@@ -47,7 +47,6 @@ class ControllerPathologies {
             $symptomes = $this->_pathologieManager->getSymptomes();
 
             json(200, linkTables($symptomesLinks, $pathologies, $symptomes, 'idP', 'idS', 'symptomes'));
-            
         } catch (Exception $e) {
             json(500, 'No data');
         }
