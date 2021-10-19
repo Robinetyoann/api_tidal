@@ -19,6 +19,12 @@ class ControllerPathologies {
                 case 'symptomes':
                     $this->symptomes();
                     break;
+                case 'symptomes,meridiens':
+                    $this->symptomesMeridiens();
+                    break;
+                case 'meridiens':
+                    $this->meridiens();
+                    break;
             };
         } else {
             $this->pathologie();
@@ -42,6 +48,31 @@ class ControllerPathologies {
 
             json(200, linkTables($symptomesLinks, $pathologies, $symptomes, 'idP', 'idS', 'symptomes'));
             
+        } catch (Exception $e) {
+            json(500, 'No data');
+        }
+    }
+
+    private function meridiens() {
+        try {
+            $pathologies = $this->_pathologieManager->getPathologies();
+            $meridiens = $this->_pathologieManager->getMeridiens();
+            
+            json(200, linkUnique($pathologies, $meridiens, 'mer', 'code', 'meridiens'));
+        } catch (Exception $e) {
+            json(500, 'No data');
+        }
+    }
+
+    private function symptomesMeridiens() {
+        try {
+            $symptomesLinks = $this->_pathologieManager->getLinkSymptomes();
+            $pathologies = $this->_pathologieManager->getPathologies();
+            $symptomes = $this->_pathologieManager->getSymptomes();
+            $meridiens = $this->_pathologieManager->getMeridiens();
+            $pathologiesSymptomes = linkTables($symptomesLinks, $pathologies, $symptomes, 'idP', 'idS', 'symptomes');
+
+            json(200, linkUnique($pathologiesSymptomes, $meridiens, 'mer', 'code', 'meridiens'));
         } catch (Exception $e) {
             json(500, 'No data');
         }

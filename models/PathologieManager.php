@@ -17,4 +17,8 @@ class PathologieManager extends Model  {
     public function getSymptomes() {
         return $this->getAll('symptome');
     }
+
+    public function getMeridiens() {
+        return $this->getAll('meridien');
+    }
 }

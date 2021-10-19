@@ -16,3 +16,13 @@ function linkTables($links, $sources, $targets, $idSource, $idTarget, $name) {
     }
     return $sources;
 }
+
+function linkUnique($sources, $targets, $idSource, $idTarget, $name) {
+    foreach($sources as &$source) {
+        foreach($targets as $target) {
+            if($source[$idSource] == $target[$idTarget])
+                $source[$name] = $target;
+        }
+    }
+    return $sources;
+}
