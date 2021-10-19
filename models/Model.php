@@ -23,28 +23,10 @@ abstract class Model {
         $var = [];
         $req = $this->getBdd()->prepare('SELECT * FROM ' . $table);
         $req->execute();
-
         while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
             array_push($var, $data);
-        }
-        return $var;
-        $req->closeCursor();
-    }
-
-    protected function populate($arrayDest, $arraySource) {
-        $var = [];
-        $query = 'SELECT * FROM ' . $arraySource['table'] . ' ';
-        foreach ($arrayDest as $key => $value) {
-            $joinQuery = 'JOIN ' .$value->table. ' ON ' .$value->table. '.' .$value->id. '=' .$arraySource['table']. '.' .$arraySource['id'] . ' ';
-            $query .= $joinQuery;
         }
         
-        $req = $this->getBdd()->prepare('SELECT * FROM symptome JOIN symptPatho ON symptPatho.idS=symptome.idS');
-        $req->execute();
-
-        while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
-            array_push($var, $data);
-        }
         return $var;
         $req->closeCursor();
     }
