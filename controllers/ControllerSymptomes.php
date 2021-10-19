@@ -2,6 +2,7 @@
 
 require_once('./models/SymptomeManager.php');
 require_once('./lib/response_json.php');
+require_once('./lib/body_request.php');
 
 class ControllerSymptomes {
     private $_symptomeManager;
@@ -9,10 +10,13 @@ class ControllerSymptomes {
 
     public function __construct($url) {
         $this->_symptomeManager = new SymptomeManager;
-        if(count($url) === 1 && gettype($url[0]) === 'string' && empty($_GET['includes'])) {
-            $this->symptomes();
-        } elseif (count($url) === 1 && gettype($url[0]) === 'string' && empty(!$_GET)) {
+
+        if(count($url) !== 1 || gettype($url[0]) !== 'string') {json(500, 'No valid params');}
+
+        if (!empty(body_request())) {
             $this->populateSymptomes();
+        } else {
+            $this->symptomes();
         }
         
     }
@@ -27,12 +31,26 @@ class ControllerSymptomes {
     }
 
     private function populateSymptomes() {
-        var_dump($_GET);
-        /*$array = [
+        $params = body_request();
+        foreach ($params as $key => $param) {
+            switch ($key) {
+                case 'join':
+                    $joins = $param;
+                    break;
+                default:
+                    json(500, 'Null');
+            }
+        }
+
+        if (gettype($joins) === 'string'){
+            $joins = array($joins);
+        }
+
+        $array = [
             'success' => true,
             'message' => 200,
-            'data' => $this->_symptomeManager->populateSymptomes()
+            'data' => $this->_symptomeManager->populateSymptomes($joins)
         ];
-        echo json_encode($array);*/
+        echo json_encode($array);
     }
 }
