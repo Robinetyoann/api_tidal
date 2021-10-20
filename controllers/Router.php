@@ -1,5 +1,7 @@
 <?php
 
+require_once('./lib/get_token.php');
+
 class Router {
     private $_ctrl;
     private $_view;
@@ -9,29 +11,49 @@ class Router {
             spl_autoload_register(function($class) {
                 require_once('../models/'.$class.'.php');
             });
-
             $url = '';
-
-           if(isset($_GET['url'])) {
-                $url = explode('/', filter_var($_GET['url'], FILTER_SANITIZE));
-
+            if (isset($_GET['url'])) {
+                $url = explode('/', filter_var($_GET['url']), FILTER_SANITIZE_URL);
                 $controller = ucfirst(strtolower($url[0]));
                 $controllerClass = 'Controller'.$controller;
                 $controllerFile = './controllers/'.$controllerClass.'.php';
               
                 if(file_exists($controllerFile)) {
                     require_once($controllerFile);
-                    $this->_ctrl = new $controllerClass($url);
+                    if (!isset($url)) {
+                        $array = [
+                            'success' => false,
+                            'message' => 400,
+                            'errors' => 'Url non valide'
+                        ];
+                    } else {
+                        $this->_ctrl = new $controllerClass($url);
+                    }
                 } else {
-                    throw new Exception('Page introuvable');
+                    $array = [
+                        'success' => false,
+                        'message' => 400,
+                        'errors' => 'Page introuvable'
+                    ];
                 }
             } else {
-                require_once('./controllers/ControllerHome.php');
-                $this->_ctrl = new ControllerHome($url);
+                $array = [
+                    'success' => false,
+                    'message' => 404,
+                    'errors' => 'Indiquer un url'
+                ];
+            }
+
+            if (!empty($array)) {
+                echo json_encode($array);
             }
         } catch(Exception $e) {
-            $errorMsg = $e->getMessage();
-            require_once('../views/viewError.php');
+            $array = [
+                'success' => false,
+                'message' => 400,
+                'errors' => $e
+            ];
+            echo json_encode($array);
         }
     }
 }
