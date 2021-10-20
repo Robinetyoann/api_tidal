@@ -3,6 +3,7 @@
 require_once('./models/SymptomeManager.php');
 require_once('./lib/response_json.php');
 require_once('./lib/body_request.php');
+require_once('./lib/join_request.php');
 
 class ControllerSymptomes {
     private $_symptomeManager;
@@ -12,13 +13,20 @@ class ControllerSymptomes {
         $this->_symptomeManager = new SymptomeManager;
 
         if(count($url) !== 1 || gettype($url[0]) !== 'string') {json(500, 'No valid params');}
-
-        if (!empty(body_request())) {
-            $this->populateSymptomes();
+        
+        $tablesJoin = $_GET['includes'];
+        if(isset($tablesJoin)) {
+            switch ($tablesJoin) {
+                case 'pathologies':
+                    $this->pathologies();
+                    break;
+                case 'keywords':
+                    $this->keywords();
+                    break;
+            };
         } else {
             $this->symptomes();
         }
-        
     }
 
     private function symptomes() {
@@ -28,29 +36,24 @@ class ControllerSymptomes {
         } catch (Exception $e) {
             json(500, 'No data');
         }
+    }    
+
+    private function pathologies() {
+        try {
+            $pathologiesLinks = $this->_symptomeManager->getLinkPathologies();
+            $symptomes = $this->_symptomeManager->getSymptomes();
+            $pathologies = $this->_symptomeManager->getPathologies();
+            json(200, linkTables($pathologiesLinks, $symptomes, $pathologies, 'idS', 'idP', 'pathologies')); 
+        } catch (Exception $e) {
+            json(500, 'No data');
+        }
     }
 
-    private function populateSymptomes() {
-        $params = body_request();
-        foreach ($params as $key => $param) {
-            switch ($key) {
-                case 'join':
-                    $joins = $param;
-                    break;
-                default:
-                    json(500, 'Null');
-            }
-        }
+    private function keywords() {
+        $keywordsLinks = $this->_symptomeManager->getLinkKeywords();
+        $symptomes = $this->_symptomeManager->getSymptomes();
+        $keywords = $this->_symptomeManager->getKeywords();
 
-        if (gettype($joins) === 'string'){
-            $joins = array($joins);
-        }
-
-        $array = [
-            'success' => true,
-            'message' => 200,
-            'data' => $this->_symptomeManager->populateSymptomes($joins)
-        ];
-        echo json_encode($array);
+        json(200, linkTables($keywordsLinks, $symptomes, $keywords, 'idS', 'idK', 'keywords'));
     }
 }
