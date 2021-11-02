@@ -1,0 +1,1 @@
+{"token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjIzIiwiZW1haWwiOiJ0b3RvQGdtYWlsLmNvbSIsImlhdCI6MTYzNTg2MTc1NywiZXhwIjoxNjM1OTQ4MTU3fQ.h1JTK2OensMVyQatvdRSHdcHIj-7TmaB8_hZsycv1Xw","message":"Authentification r\u00e9ussite"}

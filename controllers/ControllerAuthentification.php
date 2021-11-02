@@ -53,6 +53,7 @@ class ControllerAuthentification
         $pwd = (isset($_POST['password'])) ? $_POST['password'] : NULL;
 
         if ($email != NULL && $pwd != NULL) {
+           
             $user = new User($email, $pwd);
             $user=$user->login();
             if (!$user) {
@@ -69,10 +70,12 @@ class ControllerAuthentification
                 ];
                 //json(200, "Authentification réussite");
                 $token = new JWT();
-                json(200, [['token' => $token->generate($header, $payload)], ['message' => "Authentification réussite"]]);
+                json(200,json_encode( ['token' => $token->generate($header, $payload), 'message' => "Authentification réussite"]));
             }
         } else {
+            
             json(400,  "Email et mot de passe requis !");
+            
         }
     }
 
@@ -81,6 +84,7 @@ class ControllerAuthentification
         $email = (isset($_POST['email'])) ? $_POST['email'] : NULL;
         $pwd = (isset($_POST['password'])) ? $_POST['password'] : NULL;
         if ($email != NULL && $pwd != NULL) {
+            file_put_contents('log.txt', $_POST['email']);
             $new_user = new User($email, $pwd);
             if ($new_user->register()) {
                 json(200, "Utilisateur ajouté");
@@ -89,6 +93,7 @@ class ControllerAuthentification
             }
         } else {
             json(400, "Email et mot de passe requis !");
+            file_put_contents('log.txt', ' {400 ,  "Email et mot de passe requis !"}');
         }
     }
 
