@@ -24,7 +24,7 @@ class ControllerAuthentification {
                     json(200, body_request());
                     break;
                 case 'POST':
-                    $page =  (isset($url[1])) ? $url[1] : NULL;
+                    $page = $_GET['includes'];
                     switch ($page) {
                         case NULL:
                             $this->login();
