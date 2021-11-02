@@ -70,7 +70,7 @@ class ControllerAuthentification
                 ];
                 //json(200, "Authentification réussite");
                 $token = new JWT();
-                json(200,json_encode( ['token' => $token->generate($header, $payload), 'message' => "Authentification réussite"]));
+                json(200,['token' => $token->generate($header, $payload), 'message' => "Authentification réussite"]);
             }
         } else {
             
