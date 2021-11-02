@@ -13,7 +13,7 @@ abstract class Model {
     }
 
     protected function getBdd() {
-        if(self::$_bdd == null)
+        if (self::$_bdd == null)
             self::setBdd();
 
         return self::$_bdd;
@@ -21,12 +21,12 @@ abstract class Model {
 
     protected function getAll($table) {
         $var = [];
-        $req = $this->getBdd()->prepare('SELECT * FROM '.$table);
+        $req = $this->getBdd()->prepare('SELECT * FROM ' . $table);
         $req->execute();
-
-        while($data = $req->fetch(PDO::FETCH_ASSOC)) {
+        while ($data = $req->fetch(PDO::FETCH_ASSOC)) {
             array_push($var, $data);
         }
+        
         return $var;
         $req->closeCursor();
     }

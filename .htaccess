@@ -1,3 +1,14 @@
 RewriteEngine On
 RewriteCond %{REQUEST_URI} !index.php
-RewriteRule (.*) index.php?url=$1
+
+# http://localhost:8888/api_tidal/symptomes/test
+RewriteRule ^([A-Za-z]+)/([A-Za-z]+)/([A-Za-z]+)$ index.php?url=$1&includes=$2,$3
+
+# http://localhost:8888/api_tidal/symptomes/test
+RewriteRule ^([A-Za-z]+)/([A-Za-z]+)$ index.php?url=$1&includes=$2
+
+# http://localhost:8888/api_tidal/symptomes/1
+RewriteRule ^([A-Za-z]+)/([0-9]+)$ index.php?url=$1&id=$2
+
+# http://localhost:8888/api_tidal/symptomes
+RewriteRule ^([A-Za-z]+)$ index.php?url=$1
