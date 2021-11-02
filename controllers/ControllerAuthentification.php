@@ -58,7 +58,7 @@ class ControllerAuthentification {
                     'email' => $user->email
                 ];
                 $token = new JWT();
-                json(200, [['token' => $token->generate($header, $payload)], ['message' => "Authentification réussite"]]);
+                json(200, ['token' => $token->generate($header, $payload), 'message' => "Authentification réussite"]);
             }
         } else {
             json(400, "Email et mot de passe requis !");
