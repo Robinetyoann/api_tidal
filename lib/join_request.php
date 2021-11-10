@@ -7,6 +7,7 @@ function linkTables($links, $sources, $targets, $idSource, $idTarget, $name) {
                 $source[$name][] = [$idTarget => $link[$idTarget]];
             }
         }
+   
         foreach($source[$name] as &$sourceMeta) {
             foreach($targets as $target) {
                 if($sourceMeta[$idTarget] == $target[$idTarget])
