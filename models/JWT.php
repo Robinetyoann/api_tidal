@@ -117,6 +117,10 @@ class JWT {
         if ($token == null) {
             $token = get_token();
         }
+        if($token == null){
+            return ['code'=>400, 'data'=>  'Veuillez vous authentifier'];  
+        }
+    
         $jwt = new JWT();
 
         // On vérifie la validité
