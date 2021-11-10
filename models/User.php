@@ -26,13 +26,7 @@ class User extends Model {
             $req->execute();
             $user = $req->fetch(PDO::FETCH_OBJ);
 
-            return (password_verify($this->_password, $user->password) ? true : false); 
-
-            if (password_verify($this->_password, $user->password)) {
-                return $user;
-            } else {
-                return false;
-            }
+            return (password_verify($this->_password, $user->password) ? $user : false);
         } catch (Exception $e) {
             return false;
         }

@@ -19,12 +19,12 @@ class ControllerAuthentification {
             ];
             $this->_users['message'] = $array;
         } else {
+            $page = isset($_GET['includes'])?$_GET['includes']:null;
             switch ($_SERVER["REQUEST_METHOD"]) {
                 case 'GET':
                     json(200, body_request());
                     break;
                 case 'POST':
-                    $page = $_GET['includes'];
                     switch ($page) {
                         case NULL:
                             $this->login();
@@ -58,7 +58,7 @@ class ControllerAuthentification {
                     'email' => $user->email
                 ];
                 $token = new JWT();
-                json(200, [['token' => $token->generate($header, $payload)], ['message' => "Authentification réussite"]]);
+                json(200, ['token' => $token->generate($header, $payload), 'message' => "Authentification réussite"]);
             }
         } else {
             json(400, "Email et mot de passe requis !");

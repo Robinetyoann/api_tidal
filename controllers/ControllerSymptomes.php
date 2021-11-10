@@ -1,6 +1,7 @@
 <?php
 
 require_once('./models/SymptomeManager.php');
+require_once('./models/JWT.php');
 require_once('./lib/response_json.php');
 require_once('./lib/body_request.php');
 require_once('./lib/join_request.php');
@@ -21,7 +22,13 @@ class ControllerSymptomes {
                     $this->pathologies();
                     break;
                 case 'keywords':
-                    $this->keywords();
+                    $valid = JWT::token_validation();
+                    if($valid['code'] != 200){
+                        json($valid['code'], $valid['data'] );
+                    }else{
+                        $this->keywords();
+                    }
+                    
                     break;
             };
         } else {
