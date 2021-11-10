@@ -25,7 +25,6 @@ class ControllerAuthentification {
                     json(200, body_request());
                     break;
                 case 'POST':
-                   
                     switch ($page) {
                         case NULL:
                             $this->login();
