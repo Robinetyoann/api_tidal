@@ -22,12 +22,12 @@ class ControllerSymptomes {
                     $this->pathologies();
                     break;
                 case 'keywords':
-                    $valid = JWT::token_validation();
+                   /* $valid = JWT::token_validation();
                     if($valid['code'] != 200){
                         json($valid['code'], $valid['data'] );
-                    }else{
+                    }else{*/
                         $this->keywords();
-                    }
+                 //   }
                     
                     break;
             };
