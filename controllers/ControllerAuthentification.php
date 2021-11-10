@@ -19,13 +19,12 @@ class ControllerAuthentification {
             ];
             $this->_users['message'] = $array;
         } else {
+            $page = isset($_GET['includes'])?$_GET['includes']:null;
             switch ($_SERVER["REQUEST_METHOD"]) {
                 case 'GET':
                     json(200, body_request());
                     break;
                 case 'POST':
-                    $page = (isset($_GET['includes'])) ? $_GET['includes'] : NULL;
-            
                     switch ($page) {
                         case NULL:
                             $this->login();
